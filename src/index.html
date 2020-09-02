@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/main.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <form action="" class="header__search">
+                <input type="text" placeholder="Поиск..." id="search-input">
+            </form>
+        </header>
+        <main class="main">
+            <div class="main__categories categories">
+                <div class="categories__item" data-type="event">Мероприятия</div>
+                <div class="categories__item" data-type= 'date'>Дата</div>
+                <div class="categories__item" data-type="city">Город</div>
+                <div class="categories__item" data-type="worker">Ответственный</div>
+                <div class="categories__item" data-type="cost-center">СС</div>
+                <div class="categories__item" data-type = "infopak">I</div>
+                <div class="categories__item" data-type="work-order">WO</div>
+                <div class="categories__item" data-type="attendum">A</div>
+                <div class="categories__item">Комментарии</div>
+            </div>
+            <ul class="main__list list">
+                
+            </ul>
+            <div class="main__btn btn" id = 'add'>
+                <div class="btn__circle">
+                    <span class="btn__plus"></span>
+                    <span class="btn__plus"></span>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="modal">
+        <div class="modal__dialog">
+            <div class="modal__close" id = 'close'>
+                <span></span>
+                <span></span>
+            </div>
+            <form action="" class="modal__form form" id = 'form'>
+                <div class="form__item">
+                    <label for="event">Название мероприятия</label><input type="text" id = 'event' required>
+                </div>
+                <div class="form__item">
+                    <label for="date">Дата проведения</label><input type="text" id = 'date' required>
+                </div>
+                <div class="form__item">
+                    <label for="city">Город проведения</label><input type="text" id = 'city' required>
+                </div>
+                <div class="form__item">
+                    <label for="worker">Ответственный сотрудник</label><input type="text" id = 'worker' required>
+                </div>
+                <div class="form__item">
+                    <label for="cost-center">Кост-центр</label><input type="text" id = 'cost-center' required>
+                </div>                              
+                <input class = 'form__btn' type="submit" value="Добавить" id = 'form-btn'>                
+            </form>
+        </div>
+    </div>
+    <script src="./js/script.js"></script>
+</body>
+</html>

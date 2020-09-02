@@ -1,0 +1,26 @@
+{
+  "name": "list-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rudeshko Maxim <Rudeshkomaximsergeevich@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "babel-loader": "^8.1.0",
+    "browser-sync": "^2.26.12",
+    "core-js": "^3.6.5",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-babel": "^8.0.0",
+    "gulp-sass": "^4.1.0",
+    "node-sass": "^4.14.1",
+    "webpack": "^4.44.1",
+    "webpack-stream": "^5.2.1",
+    "@babel/polyfill": "^7.10.4"
+  }
+}
