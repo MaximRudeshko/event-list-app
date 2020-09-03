@@ -2147,11 +2147,11 @@ __webpack_require__.r(__webpack_exports__);
 var formState = {},
     form = document.getElementById('form'),
     inputs = document.querySelectorAll('.form__item input'),
-    modal = document.querySelector('.modal');
+    modal = document.querySelector('.modal'),
+    id = 0;
 inputs.forEach(function (input) {
   input.addEventListener('change', function () {
     formState[input.id] = input.value;
-    console.log(formState);
   });
 });
 form.addEventListener('submit', function (e) {
@@ -2162,6 +2162,7 @@ form.addEventListener('submit', function (e) {
   formState['comment'] = '';
   addToLocalStorage(formState);
   renderItem(formState);
+  bindComment();
 });
 
 function addToLocalStorage(item) {
@@ -2191,16 +2192,7 @@ function renderItem(state) {
       });
     } else if (key == 'comment') {
       listItemBlock.classList.add('list__comment');
-      listItemBlock.innerHTML = "\n                <form class = 'comment__input'>\n                    <div>\n                        <p class = 'input__text'>\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0432\u0430\u0448 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439</p>\n                        <input type = 'submit' value = ''>\n                    </div>\n                    <textarea id ='commment-text'></textarea>\n                    \n                </form>\n            ";
-      var commentForms = document.querySelectorAll('.comment__input');
-      commentForms.forEach(function (form) {
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          var textField = form.querySelector('textarea');
-          var commentBlock = document.querySelector('.list__comment');
-          commentBlock.textContent = textField.value;
-        });
-      });
+      listItemBlock.innerHTML = "\n                <div class = 'comment__text'></div>\n                <form class = 'comment__input'>\n                    <div>\n                        <p class = 'input__text'>\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0432\u0430\u0448 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439</p>\n                        <input type = 'submit' value = ''>\n                    </div>\n                    <textarea id ='commment-text'></textarea>\n                    \n                </form>\n            ";
       listItemBlock.addEventListener('click', function (e) {
         e.target.classList.toggle('active');
       });
@@ -2222,11 +2214,24 @@ function renderItem(state) {
   modal.classList.remove('active');
 }
 
+function bindComment() {
+  var commentForms = document.querySelectorAll('.comment__input');
+  commentForms.forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var textarea = e.target.querySelector('textarea');
+      e.target.previousElementSibling.textContent = textarea.value;
+      e.target.closest('.list__comment').classList.remove('active');
+    });
+  });
+}
+
 window.addEventListener('load', function () {
   var items = getItemsFromLocalStorage();
   items.forEach(function (item) {
     renderItem(item);
   });
+  bindComment();
 });
 
 /***/ }),

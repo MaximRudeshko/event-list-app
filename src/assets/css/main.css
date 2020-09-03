@@ -131,11 +131,13 @@ body {
         .list__block.i.active .list__block_choose, .list__block.wo.active .list__block_choose, .list__block.a.active .list__block_choose {
           transform: translateY(0);
           transition: all .5s ease; }
-    .list__block:nth-child(9) {
+    .list__block.list__comment {
       flex: 0 0 28%;
       border-right: none;
       position: relative; }
-      .list__block:nth-child(9) .comment__input {
+      .list__block.list__comment .comment__text {
+        position: relative; }
+      .list__block.list__comment .comment__input {
         position: absolute;
         z-index: 10;
         width: 320px;
@@ -152,7 +154,7 @@ body {
         flex-direction: column;
         border-radius: 15px;
         padding: 15px; }
-        .list__block:nth-child(9) .comment__input::before {
+        .list__block.list__comment .comment__input::before {
           content: '';
           position: absolute;
           left: 20%;
@@ -160,20 +162,20 @@ body {
           top: -39%;
           border: 3rem solid transparent;
           border-bottom: 20px solid #D9DDE1; }
-        .list__block:nth-child(9) .comment__input textarea {
+        .list__block.list__comment .comment__input textarea {
           width: 100%;
           flex: 1 1 auto;
           outline: none;
           padding: 10px; }
-      .list__block:nth-child(9).active .comment__input {
+      .list__block.list__comment.active .comment__input {
         opacity: 1;
         visibility: visible; }
-        .list__block:nth-child(9).active .comment__input div {
+        .list__block.list__comment.active .comment__input div {
           width: 100%;
           display: flex;
           align-items: center;
           justify-content: space-between; }
-          .list__block:nth-child(9).active .comment__input div input {
+          .list__block.list__comment.active .comment__input div input {
             display: block;
             width: 35px;
             height: 35px;

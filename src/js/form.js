@@ -1,12 +1,12 @@
 let formState = {},
       form = document.getElementById('form'),
       inputs = document.querySelectorAll('.form__item input'),
-      modal = document.querySelector('.modal');
+      modal = document.querySelector('.modal'),
+      id = 0;
 
 inputs.forEach(input => {
     input.addEventListener('change', () => {
         formState[input.id] = input.value;
-        console.log(formState)
         
     })
 })
@@ -19,8 +19,9 @@ form.addEventListener('submit', e => {
     formState['a'] = '';
     formState['comment'] = '';
 
-    addToLocalStorage(formState)
+    addToLocalStorage(formState);
     renderItem(formState);
+    bindComment();
     
 })
 
@@ -58,6 +59,7 @@ function renderItem(state){
         }else if(key == 'comment'){
             listItemBlock.classList.add('list__comment');
             listItemBlock.innerHTML = `
+                <div class = 'comment__text'></div>
                 <form class = 'comment__input'>
                     <div>
                         <p class = 'input__text'>Введите ваш комментарий</p>
@@ -67,19 +69,7 @@ function renderItem(state){
                     
                 </form>
             `
-            const commentForms = document.querySelectorAll('.comment__input');
 
-            commentForms.forEach(form => {
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-
-                    let textField = form.querySelector('textarea');
-                    let commentBlock = document.querySelector('.list__comment')
-
-                    commentBlock.textContent = textField.value;
-
-                })
-            })
 
             listItemBlock.addEventListener('click', e => {
                 e.target.classList.toggle('active')
@@ -96,9 +86,30 @@ function renderItem(state){
     modal.classList.remove('active');
 }
 
+
+function bindComment(){
+
+
+    let commentForms = document.querySelectorAll('.comment__input');
+
+
+    commentForms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let textarea = e.target.querySelector('textarea');
+
+            e.target.previousElementSibling.textContent = textarea.value;
+            e.target.closest('.list__comment').classList.remove('active');
+
+        })
+    })
+}
+
 window.addEventListener('load', () => {
     const items = getItemsFromLocalStorage();
     items.forEach(item => {
         renderItem(item)
     })
+
+    bindComment();
 })
