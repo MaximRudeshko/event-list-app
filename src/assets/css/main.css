@@ -12,12 +12,12 @@
 /* Fonts */
 /* Variables */
 .container {
-  max-width: 1140px;
+  max-width: 1240px;
   margin: 0 auto;
   width: 100%; }
-  @media (max-width: 1152px) {
+  @media (max-width: 1252px) {
     .container {
-      max-width: 970px; } }
+      max-width: 1120px; } }
   @media (max-width: 991.98px) {
     .container {
       max-width: 770px; } }
@@ -90,7 +90,8 @@ body {
     background: #C2D7FF;
     border-radius: 15px;
     box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.25);
-    border: 5px solid rgba(46, 121, 234, 0.3); }
+    border: 5px solid rgba(46, 121, 234, 0.3);
+    position: relative; }
     .list__item.hide {
       display: none; }
   .list__block {
@@ -120,6 +121,27 @@ body {
       flex: 0 0 10%; }
     .list__block:nth-child(5) {
       flex: 0 0 10%; }
+    .list__block:nth-child(10) {
+      flex: 0 0 0%;
+      position: absolute;
+      border-right: none;
+      top: -19px;
+      right: -19px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      justify-content: center; }
+      .list__block:nth-child(10) span {
+        display: block;
+        width: 15px;
+        height: 2px;
+        background: #000; }
+        .list__block:nth-child(10) span:first-child {
+          transform: rotate(45deg) translate(6px, -6px); }
+        .list__block:nth-child(10) span:last-child {
+          transform: rotate(-45deg) translate(-5px, -5px); }
     .list__block.i, .list__block.wo, .list__block.a {
       flex: 0 0 7%;
       background: red;

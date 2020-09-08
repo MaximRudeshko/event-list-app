@@ -1,46 +1,58 @@
-let formState = {},
+const formState = {},
       form = document.getElementById('form'),
       inputs = document.querySelectorAll('.form__item input'),
-      modal = document.querySelector('.modal'),
-      id = 0;
+      modal = document.querySelector('.modal');
+let itemId;
 
-inputs.forEach(input => {
-    input.addEventListener('change', () => {
-        formState[input.id] = input.value;
-        
-    })
-})
+/* Отрисовка и  добавление данных в localStorage */
 
 form.addEventListener('submit', e => {
     e.preventDefault();
 
-    formState['i'] = '';
-    formState['wo'] = '';
-    formState['a'] = '';
-    formState['comment'] = '';
+    formState['i'] = null;
+    formState['wo'] = null;
+    formState['a'] = null;
+    formState['comment'] = null;
 
-    addToLocalStorage(formState);
-    renderItem(formState);
+
+    itemId++;
+
+
+    formState['id'] = itemId;
+
+    renderItem(formState, itemId);
     bindComment();
+    bindClose();
+    addToLocalStorage(formState);
+    addMaxIdToLocalStorage(itemId);
+
     
 })
 
 function addToLocalStorage(item){
     const all = getItemsFromLocalStorage();
     all.push(item);
-    localStorage.setItem('items',JSON.stringify(all))
+    localStorage.setItem('items',JSON.stringify(all)); 
+}
+
+function addMaxIdToLocalStorage(id){
+    localStorage.setItem('maxId', id)
 }
 
 function getItemsFromLocalStorage(){
     return JSON.parse(localStorage.getItem('items') || '[]')
 }
+function getMaxIdFromLocalStorage(){
+    return JSON.parse(localStorage.getItem('maxId') || '0');
+}
 
+function renderItem(state, id){
 
-function renderItem(state){
     const listItem = document.createElement('li');
     const parentBlock = document.querySelector('.main__list');
 
     listItem.classList.add('list__item');
+    listItem.setAttribute('data-id', id)
 
     for(let key in state){
         let listItemBlock = document.createElement('div');
@@ -70,36 +82,61 @@ function renderItem(state){
                 </form>
             `
 
-
             listItemBlock.addEventListener('click', e => {
                 e.target.classList.toggle('active')
             })
+        }else if(key == 'id'){
+            continue;
         }else{
             listItemBlock.textContent = state[key];
             listItemBlock.classList.add('list__search');
         }
+
         listItem.append(listItemBlock); 
     }
+
+    const close = document.createElement('div');
+    close.innerHTML = `<span></span><span></span>`
+    close.classList.add('list__block');
+    close.classList.add('list__close');
+    listItem.append(close);
+
     parentBlock.append(listItem);
     state = {};
     form.reset();
     modal.classList.remove('active');
 }
 
-
 function bindComment(){
 
+    const commentForms = document.querySelectorAll('.comment__input');
 
-    let commentForms = document.querySelectorAll('.comment__input');
-
-
-    commentForms.forEach(form => {
-        form.addEventListener('submit', (e) => {
+    commentForms.forEach(item => {
+        item.addEventListener('submit', (e) => {
             e.preventDefault();
-            let textarea = e.target.querySelector('textarea');
+            const textarea = e.target.querySelector('textarea');
 
             e.target.previousElementSibling.textContent = textarea.value;
             e.target.closest('.list__comment').classList.remove('active');
+        })
+    })   
+}
+
+function bindClose(){
+
+    const itemCloses = document.querySelectorAll('.list__close');
+
+    itemCloses.forEach(item => {
+        item.addEventListener('click', (e) => {
+            const arrOfItems = JSON.parse(localStorage.getItem('items'))
+            const index = arrOfItems.findIndex(item => item['id'] == e.target.closest('.list__item').getAttribute('data-id'))
+
+            const newArr = [...arrOfItems.slice(0,index), ...arrOfItems.slice(index + 1)];
+
+            localStorage.setItem('items', JSON.stringify(newArr))
+           
+
+            e.target.closest('.list__item').style.display = 'none';
 
         })
     })
@@ -108,8 +145,17 @@ function bindComment(){
 window.addEventListener('load', () => {
     const items = getItemsFromLocalStorage();
     items.forEach(item => {
-        renderItem(item)
+        renderItem(item, item['id'])
     })
 
+    inputs.forEach(input => {
+        input.addEventListener('input', () => {
+            formState[input.id] = input.value;
+        })
+    });
+
+    itemId = getMaxIdFromLocalStorage();
+
     bindComment();
-})
+    bindClose();
+});
