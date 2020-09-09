@@ -12,6 +12,13 @@ form.addEventListener('submit', e => {
     formState['i'] = null;
     formState['wo'] = null;
     formState['a'] = null;
+    formState['dateChange'] = null;
+    formState['rzn'] = null;
+    formState['validContract'] = null;
+    formState['invalidContract'] = null;
+    formState['contract'] = null;
+    formState['payment'] = null;
+    formState['lecture'] = null;
     formState['comment'] = null;
 
 
@@ -21,10 +28,10 @@ form.addEventListener('submit', e => {
     formState['id'] = itemId;
 
     renderItem(formState, itemId);
-    bindComment();
-    bindClose();
     addToLocalStorage(formState);
     addMaxIdToLocalStorage(itemId);
+    bindComment();
+   
 
     
 })
@@ -57,7 +64,7 @@ function renderItem(state, id){
     for(let key in state){
         let listItemBlock = document.createElement('div');
         listItemBlock.classList.add(`list__block`);
-        if(key == 'i' || key == 'wo' || key == 'a'){
+        if(key == 'i' || key == 'wo' || key == 'a' || key == 'dateChange' || key == 'rzn' || key == 'validContract' || key == 'invalidContract' || key == 'contract' || key == 'payment' || key == 'lecture'){
             listItemBlock.innerHTML = `
                 <div class = 'list__block_choose'>
                     <img src ='./assets/img/ok.svg'>
@@ -99,6 +106,16 @@ function renderItem(state, id){
     close.innerHTML = `<span></span><span></span>`
     close.classList.add('list__block');
     close.classList.add('list__close');
+    close.addEventListener('click', (e) => {
+        const arrOfItems = getItemsFromLocalStorage();
+        const index = arrOfItems.findIndex(item => item['id'] == e.target.closest('.list__item').getAttribute('data-id'))
+
+        const newArr = [...arrOfItems.slice(0, index), ...arrOfItems.slice(index + 1)];
+
+        localStorage.setItem('items', JSON.stringify(newArr));
+
+        e.target.closest('.list__item').style.display = 'none'
+    })
     listItem.append(close);
 
     parentBlock.append(listItem);
@@ -122,25 +139,6 @@ function bindComment(){
     })   
 }
 
-function bindClose(){
-
-    const itemCloses = document.querySelectorAll('.list__close');
-
-    itemCloses.forEach(item => {
-        item.addEventListener('click', (e) => {
-            const arrOfItems = JSON.parse(localStorage.getItem('items'))
-            const index = arrOfItems.findIndex(item => item['id'] == e.target.closest('.list__item').getAttribute('data-id'))
-
-            const newArr = [...arrOfItems.slice(0,index), ...arrOfItems.slice(index + 1)];
-
-            localStorage.setItem('items', JSON.stringify(newArr))
-           
-
-            e.target.closest('.list__item').style.display = 'none';
-
-        })
-    })
-}
 
 window.addEventListener('load', () => {
     const items = getItemsFromLocalStorage();
@@ -157,5 +155,5 @@ window.addEventListener('load', () => {
     itemId = getMaxIdFromLocalStorage();
 
     bindComment();
-    bindClose();
+
 });

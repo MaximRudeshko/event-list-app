@@ -4037,14 +4037,20 @@ form.addEventListener('submit', function (e) {
   formState['i'] = null;
   formState['wo'] = null;
   formState['a'] = null;
+  formState['dateChange'] = null;
+  formState['rzn'] = null;
+  formState['validContract'] = null;
+  formState['invalidContract'] = null;
+  formState['contract'] = null;
+  formState['payment'] = null;
+  formState['lecture'] = null;
   formState['comment'] = null;
   itemId++;
   formState['id'] = itemId;
   renderItem(formState, itemId);
-  bindComment();
-  bindClose();
   addToLocalStorage(formState);
   addMaxIdToLocalStorage(itemId);
+  bindComment();
 });
 
 function addToLocalStorage(item) {
@@ -4075,7 +4081,7 @@ function renderItem(state, id) {
     var listItemBlock = document.createElement('div');
     listItemBlock.classList.add("list__block");
 
-    if (key == 'i' || key == 'wo' || key == 'a') {
+    if (key == 'i' || key == 'wo' || key == 'a' || key == 'dateChange' || key == 'rzn' || key == 'validContract' || key == 'invalidContract' || key == 'contract' || key == 'payment' || key == 'lecture') {
       listItemBlock.innerHTML = "\n                <div class = 'list__block_choose'>\n                    <img src ='./assets/img/ok.svg'>\n                </div>\n           ";
       listItemBlock.classList.add("".concat(key));
       listItemBlock.addEventListener('click', function () {
@@ -4107,6 +4113,15 @@ function renderItem(state, id) {
   close.innerHTML = "<span></span><span></span>";
   close.classList.add('list__block');
   close.classList.add('list__close');
+  close.addEventListener('click', function (e) {
+    var arrOfItems = getItemsFromLocalStorage();
+    var index = arrOfItems.findIndex(function (item) {
+      return item['id'] == e.target.closest('.list__item').getAttribute('data-id');
+    });
+    var newArr = [].concat(_toConsumableArray(arrOfItems.slice(0, index)), _toConsumableArray(arrOfItems.slice(index + 1)));
+    localStorage.setItem('items', JSON.stringify(newArr));
+    e.target.closest('.list__item').style.display = 'none';
+  });
   listItem.append(close);
   parentBlock.append(listItem);
   state = {};
@@ -4126,21 +4141,6 @@ function bindComment() {
   });
 }
 
-function bindClose() {
-  var itemCloses = document.querySelectorAll('.list__close');
-  itemCloses.forEach(function (item) {
-    item.addEventListener('click', function (e) {
-      var arrOfItems = JSON.parse(localStorage.getItem('items'));
-      var index = arrOfItems.findIndex(function (item) {
-        return item['id'] == e.target.closest('.list__item').getAttribute('data-id');
-      });
-      var newArr = [].concat(_toConsumableArray(arrOfItems.slice(0, index)), _toConsumableArray(arrOfItems.slice(index + 1)));
-      localStorage.setItem('items', JSON.stringify(newArr));
-      e.target.closest('.list__item').style.display = 'none';
-    });
-  });
-}
-
 window.addEventListener('load', function () {
   var items = getItemsFromLocalStorage();
   items.forEach(function (item) {
@@ -4153,7 +4153,6 @@ window.addEventListener('load', function () {
   });
   itemId = getMaxIdFromLocalStorage();
   bindComment();
-  bindClose();
 });
 
 /***/ }),

@@ -5,6 +5,7 @@
     border:0;
 	user-select: none;
 	font-size: 12px;
+	font-family: 'Roboto';
 }
 
 
@@ -14,11 +15,19 @@
 
 /* Fonts */
 
+@font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/Roboto.ttf');
+	src: local('☺'), url('../fonts/Roboto.ttf') format('woff'), url('../fonts/Roboto.ttf') format('truetype'), url('../fonts/Roboto.ttf') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
 
 
 /* Variables */
 $minwidth: 320px;
-$mw: 1240;
+$mw: 1400;
 $md1: $mw + 12;
 $md2: 991.98;
 $md3: 767.98;
@@ -72,33 +81,54 @@ body{
 		font-size: 12px;
 		font-weight: bold;
 		padding: 15px 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		&:nth-child(1){
 			flex:0 0 15%;
 		}
 		&:nth-child(2){
-			flex: 0 0 7%;
+			flex: 0 0 5%;
 		}
 		&:nth-child(3){
-			flex: 0 0 9%;
+			flex: 0 0 7%;
 		}
 		&:nth-child(4){
-			flex: 0 0 10%;
+			flex: 0 0 8%;
 		}
 		&:nth-child(5){
-			flex: 0 0 10%;
+			flex: 0 0 5%;
 		}
 		&:nth-child(6){
-			flex: 0 0 7%;
+			flex: 0 0 5%;
 		}
 		&:nth-child(7){
-			flex: 0 0 7%;
+			flex: 0 0 5%;
 		}
 		&:nth-child(8){
-			flex: 0 0 7%;
+			flex: 0 0 5%;
 		}
 		
 		&:nth-child(9){
-			flex: 0 0 28%;
+			flex: 0 0 5%;
+		}
+		&:nth-child(10){
+			flex: 0 0 5%;
+		}
+		&:nth-child(11){
+			flex: 0 0 5%;
+		}
+		&:nth-child(12){
+			flex: 0 0 5%;
+		}
+		&:nth-child(13){
+			flex: 0 0 5%;
+		}
+		&:nth-child(14){
+			flex: 0 0 5%;
+		}
+		&:nth-child(15){
+			flex: 0 0 5%;
 		}
 	}
 }
@@ -122,7 +152,7 @@ body{
 
 	&__block{
 		border-right:2px solid #000;
-		padding: 15px 0;
+		padding: 15px 10px;
 		font-weight: bold;
 		display: flex;
 		align-items: center;
@@ -132,16 +162,16 @@ body{
 			flex:0 0 15%;
 		}
 		&:nth-child(2){
-			flex: 0 0 7%;
+			flex: 0 0 5%;
 		}
 		&:nth-child(3){
-			flex: 0 0 9%;
+			flex: 0 0 7%;
 		}
 		&:nth-child(4){
-			flex: 0 0 10%;
+			flex: 0 0 8%;
 		}
 		&:nth-child(5){
-			flex: 0 0 10%;
+			flex: 0 0 5%;
 		}
 		/* &:nth-child(6){
 			
@@ -152,8 +182,7 @@ body{
 		&:nth-child(8){
 			flex: 0 0 7%;
 		} */
-		&:nth-child(10){
-			flex:0 0 0%;
+		&:nth-child(17){
 			position: absolute;
 			border-right:none;
 			top:-19px;
@@ -164,6 +193,7 @@ body{
 			background:#fff;
 			display: flex;
 			justify-content: center;
+			padding: 0;
 			span{
 				display: block;
 				width: 15px;
@@ -178,8 +208,17 @@ body{
 			}
 
 		}
-		&.i, &.wo, &.a{
-			flex: 0 0 7%;
+		&.i,
+		&.wo,
+		&.a,
+		&.dateChange,
+		&.rzn,
+		&.validContract,
+		&.invalidContract,
+		&.contract,
+		&.payment,
+		&.lecture{
+			flex: 0 0 3%;
 			background: red;
 			overflow: hidden;
 			padding: 0;
@@ -187,18 +226,19 @@ body{
 			&.active{
 				background:inherit;
 				.list__block_choose{
-					transform:translateY(0);
+					transform:translateY(-0%);
 					transition: all .5s ease;
 				}
 			}
 		}
 		&.list__comment{
-			flex: 0 0 28%;
+			flex: 0 0 15%;
 			border-right:none;
 			position: relative;
 
 			.comment__text{
 				position: relative;
+				padding: 10px;
 				
 			}
 			.comment__input{
@@ -258,7 +298,8 @@ body{
 			}
 		}
 		&_choose{
-			transform:translateY(-150%);
+			transform:translateY(-200%);
+			transition: all .5s ease;
 			img{	
 				max-width: 100%;
 				height: 100%;
@@ -324,7 +365,7 @@ body{
 	}
 	&__dialog {
 		width: 30%;
-		height: 65%;
+		
 		background: #D1D8F0;
 		padding:40px 20px;
 		position: relative;

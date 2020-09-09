@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   margin: 0;
   padding: 0;
@@ -7,15 +8,23 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  font-size: 12px; }
+  font-size: 12px;
+  font-family: 'Roboto'; }
 
 /* Fonts */
+@font-face {
+  font-family: 'Roboto';
+  src: url("../fonts/Roboto.ttf");
+  src: local("☺"), url("../fonts/Roboto.ttf") format("woff"), url("../fonts/Roboto.ttf") format("truetype"), url("../fonts/Roboto.ttf") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
 /* Variables */
 .container {
-  max-width: 1240px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%; }
-  @media (max-width: 1252px) {
+  @media (max-width: 1412px) {
     .container {
       max-width: 1120px; } }
   @media (max-width: 991.98px) {
@@ -60,25 +69,40 @@ body {
     text-align: center;
     font-size: 12px;
     font-weight: bold;
-    padding: 15px 0; }
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
     .categories__item:nth-child(1) {
       flex: 0 0 15%; }
     .categories__item:nth-child(2) {
-      flex: 0 0 7%; }
+      flex: 0 0 5%; }
     .categories__item:nth-child(3) {
-      flex: 0 0 9%; }
+      flex: 0 0 7%; }
     .categories__item:nth-child(4) {
-      flex: 0 0 10%; }
+      flex: 0 0 8%; }
     .categories__item:nth-child(5) {
-      flex: 0 0 10%; }
+      flex: 0 0 5%; }
     .categories__item:nth-child(6) {
-      flex: 0 0 7%; }
+      flex: 0 0 5%; }
     .categories__item:nth-child(7) {
-      flex: 0 0 7%; }
+      flex: 0 0 5%; }
     .categories__item:nth-child(8) {
-      flex: 0 0 7%; }
+      flex: 0 0 5%; }
     .categories__item:nth-child(9) {
-      flex: 0 0 28%; }
+      flex: 0 0 5%; }
+    .categories__item:nth-child(10) {
+      flex: 0 0 5%; }
+    .categories__item:nth-child(11) {
+      flex: 0 0 5%; }
+    .categories__item:nth-child(12) {
+      flex: 0 0 5%; }
+    .categories__item:nth-child(13) {
+      flex: 0 0 5%; }
+    .categories__item:nth-child(14) {
+      flex: 0 0 5%; }
+    .categories__item:nth-child(15) {
+      flex: 0 0 5%; }
 
 .list {
   margin: 50px 0 100px;
@@ -96,7 +120,7 @@ body {
       display: none; }
   .list__block {
     border-right: 2px solid #000;
-    padding: 15px 0;
+    padding: 15px 10px;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -114,15 +138,14 @@ body {
     .list__block:nth-child(1) {
       flex: 0 0 15%; }
     .list__block:nth-child(2) {
-      flex: 0 0 7%; }
+      flex: 0 0 5%; }
     .list__block:nth-child(3) {
-      flex: 0 0 9%; }
+      flex: 0 0 7%; }
     .list__block:nth-child(4) {
-      flex: 0 0 10%; }
+      flex: 0 0 8%; }
     .list__block:nth-child(5) {
-      flex: 0 0 10%; }
-    .list__block:nth-child(10) {
-      flex: 0 0 0%;
+      flex: 0 0 5%; }
+    .list__block:nth-child(17) {
       position: absolute;
       border-right: none;
       top: -19px;
@@ -132,33 +155,35 @@ body {
       border-radius: 50%;
       background: #fff;
       display: flex;
-      justify-content: center; }
-      .list__block:nth-child(10) span {
+      justify-content: center;
+      padding: 0; }
+      .list__block:nth-child(17) span {
         display: block;
         width: 15px;
         height: 2px;
         background: #000; }
-        .list__block:nth-child(10) span:first-child {
+        .list__block:nth-child(17) span:first-child {
           transform: rotate(45deg) translate(6px, -6px); }
-        .list__block:nth-child(10) span:last-child {
+        .list__block:nth-child(17) span:last-child {
           transform: rotate(-45deg) translate(-5px, -5px); }
-    .list__block.i, .list__block.wo, .list__block.a {
-      flex: 0 0 7%;
+    .list__block.i, .list__block.wo, .list__block.a, .list__block.dateChange, .list__block.rzn, .list__block.validContract, .list__block.invalidContract, .list__block.contract, .list__block.payment, .list__block.lecture {
+      flex: 0 0 3%;
       background: red;
       overflow: hidden;
       padding: 0;
       transition: all .5s ease; }
-      .list__block.i.active, .list__block.wo.active, .list__block.a.active {
+      .list__block.i.active, .list__block.wo.active, .list__block.a.active, .list__block.dateChange.active, .list__block.rzn.active, .list__block.validContract.active, .list__block.invalidContract.active, .list__block.contract.active, .list__block.payment.active, .list__block.lecture.active {
         background: inherit; }
-        .list__block.i.active .list__block_choose, .list__block.wo.active .list__block_choose, .list__block.a.active .list__block_choose {
-          transform: translateY(0);
+        .list__block.i.active .list__block_choose, .list__block.wo.active .list__block_choose, .list__block.a.active .list__block_choose, .list__block.dateChange.active .list__block_choose, .list__block.rzn.active .list__block_choose, .list__block.validContract.active .list__block_choose, .list__block.invalidContract.active .list__block_choose, .list__block.contract.active .list__block_choose, .list__block.payment.active .list__block_choose, .list__block.lecture.active .list__block_choose {
+          transform: translateY(0%);
           transition: all .5s ease; }
     .list__block.list__comment {
-      flex: 0 0 28%;
+      flex: 0 0 15%;
       border-right: none;
       position: relative; }
       .list__block.list__comment .comment__text {
-        position: relative; }
+        position: relative;
+        padding: 10px; }
       .list__block.list__comment .comment__input {
         position: absolute;
         z-index: 10;
@@ -204,7 +229,8 @@ body {
             background: url("../img/ok.svg") center;
             cursor: pointer; }
     .list__block_choose {
-      transform: translateY(-150%); }
+      transform: translateY(-200%);
+      transition: all .5s ease; }
       .list__block_choose img {
         max-width: 100%;
         height: 100%; }
@@ -253,7 +279,6 @@ body {
     visibility: visible; }
   .modal__dialog {
     width: 30%;
-    height: 65%;
     background: #D1D8F0;
     padding: 40px 20px;
     position: relative; }
