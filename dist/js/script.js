@@ -4034,16 +4034,16 @@ var itemId;
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
-  formState['i'] = null;
-  formState['wo'] = null;
-  formState['a'] = null;
   formState['dateChange'] = null;
   formState['rzn'] = null;
   formState['validContract'] = null;
   formState['invalidContract'] = null;
+  formState['i'] = null;
+  formState['wo'] = null;
   formState['contract'] = null;
   formState['payment'] = null;
   formState['lecture'] = null;
+  formState['a'] = null;
   formState['comment'] = null;
   itemId++;
   formState['id'] = itemId;
@@ -4081,15 +4081,18 @@ function renderItem(state, id) {
     var listItemBlock = document.createElement('div');
     listItemBlock.classList.add("list__block");
 
-    if (key == 'i' || key == 'wo' || key == 'a' || key == 'dateChange' || key == 'rzn' || key == 'validContract' || key == 'invalidContract' || key == 'contract' || key == 'payment' || key == 'lecture') {
+    if (key == 'wo' || key == 'a' || key == 'dateChange' || key == 'rzn' || key == 'validContract' || key == 'invalidContract' || key == 'contract' || key == 'payment' || key == 'lecture') {
       listItemBlock.innerHTML = "\n                <div class = 'list__block_choose'>\n                    <img src ='./assets/img/ok.svg'>\n                </div>\n           ";
       listItemBlock.classList.add("".concat(key));
       listItemBlock.addEventListener('click', function () {
         listItemBlock.classList.toggle('active');
       });
+    } else if (key == 'i') {
+      listItemBlock.innerHTML = "\n            <div class = 'list__block_choose'>\n                <img src ='./assets/img/ok.svg'>\n            </div>\n            ";
+      listItemBlock.classList.add("".concat(key));
     } else if (key == 'comment') {
       listItemBlock.classList.add('list__comment');
-      listItemBlock.innerHTML = "\n                <div class = 'comment__text'></div>\n                <form class = 'comment__input'>\n                    <div>\n                        <p class = 'input__text'>\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0432\u0430\u0448 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439</p>\n                        <input type = 'submit' value = ''>\n                    </div>\n                    <textarea id ='commment-text'></textarea>\n                    \n                </form>\n            ";
+      listItemBlock.innerHTML = "\n                <div class = 'comment__text'>".concat(state[key] ? state[key] : '', "</div>\n                <form class = 'comment__form'>\n                    <div>\n                        <p class = 'input__text'>\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0432\u0430\u0448 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439</p>\n                        <input type = 'submit' value = ''>\n                    </div>\n                    <textarea id ='commment-text'></textarea>\n                </form>\n            ");
       listItemBlock.addEventListener('click', function (e) {
         e.target.classList.toggle('active');
       });
@@ -4130,13 +4133,19 @@ function renderItem(state, id) {
 }
 
 function bindComment() {
-  var commentForms = document.querySelectorAll('.comment__input');
+  var commentForms = document.querySelectorAll('.comment__form');
   commentForms.forEach(function (item) {
     item.addEventListener('submit', function (e) {
       e.preventDefault();
       var textarea = e.target.querySelector('textarea');
       e.target.previousElementSibling.textContent = textarea.value;
       e.target.closest('.list__comment').classList.remove('active');
+      var arrOfItems = getItemsFromLocalStorage();
+      var index = arrOfItems.findIndex(function (item) {
+        return item['id'] == e.target.closest('.list__item').getAttribute('data-id');
+      });
+      arrOfItems[index]['comment'] = textarea.value;
+      localStorage.setItem('items', JSON.stringify(arrOfItems));
     });
   });
 }

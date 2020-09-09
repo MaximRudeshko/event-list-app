@@ -9,21 +9,20 @@ let itemId;
 form.addEventListener('submit', e => {
     e.preventDefault();
 
-    formState['i'] = null;
-    formState['wo'] = null;
-    formState['a'] = null;
+
     formState['dateChange'] = null;
     formState['rzn'] = null;
     formState['validContract'] = null;
     formState['invalidContract'] = null;
+    formState['i'] = null;
+    formState['wo'] = null;
     formState['contract'] = null;
     formState['payment'] = null;
     formState['lecture'] = null;
+    formState['a'] = null;    
     formState['comment'] = null;
 
-
     itemId++;
-
 
     formState['id'] = itemId;
 
@@ -64,7 +63,7 @@ function renderItem(state, id){
     for(let key in state){
         let listItemBlock = document.createElement('div');
         listItemBlock.classList.add(`list__block`);
-        if(key == 'i' || key == 'wo' || key == 'a' || key == 'dateChange' || key == 'rzn' || key == 'validContract' || key == 'invalidContract' || key == 'contract' || key == 'payment' || key == 'lecture'){
+        if( key == 'wo' || key == 'a' || key == 'dateChange' || key == 'rzn' || key == 'validContract' || key == 'invalidContract' || key == 'contract' || key == 'payment' || key == 'lecture'){
             listItemBlock.innerHTML = `
                 <div class = 'list__block_choose'>
                     <img src ='./assets/img/ok.svg'>
@@ -75,23 +74,31 @@ function renderItem(state, id){
                listItemBlock.classList.toggle('active');
            });
 
-        }else if(key == 'comment'){
+        }else if(key == 'i'){
+            listItemBlock.innerHTML = `
+            <div class = 'list__block_choose'>
+                <img src ='./assets/img/ok.svg'>
+            </div>
+            `;
+            listItemBlock.classList.add(`${key}`);
+        }
+        else if(key == 'comment'){
             listItemBlock.classList.add('list__comment');
             listItemBlock.innerHTML = `
-                <div class = 'comment__text'></div>
-                <form class = 'comment__input'>
+                <div class = 'comment__text'>${state[key] ? state[key] : ''}</div>
+                <form class = 'comment__form'>
                     <div>
                         <p class = 'input__text'>Введите ваш комментарий</p>
                         <input type = 'submit' value = ''>
                     </div>
                     <textarea id ='commment-text'></textarea>
-                    
                 </form>
             `
 
             listItemBlock.addEventListener('click', e => {
                 e.target.classList.toggle('active')
             })
+
         }else if(key == 'id'){
             continue;
         }else{
@@ -126,7 +133,7 @@ function renderItem(state, id){
 
 function bindComment(){
 
-    const commentForms = document.querySelectorAll('.comment__input');
+    const commentForms = document.querySelectorAll('.comment__form');
 
     commentForms.forEach(item => {
         item.addEventListener('submit', (e) => {
@@ -135,6 +142,14 @@ function bindComment(){
 
             e.target.previousElementSibling.textContent = textarea.value;
             e.target.closest('.list__comment').classList.remove('active');
+
+            const arrOfItems = getItemsFromLocalStorage();
+
+            const index = arrOfItems.findIndex(item => item['id'] == e.target.closest('.list__item').getAttribute('data-id'));
+
+            arrOfItems[index]['comment'] = textarea.value;
+
+            localStorage.setItem('items', JSON.stringify(arrOfItems))
         })
     })   
 }

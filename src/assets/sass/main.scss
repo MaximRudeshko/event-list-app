@@ -71,7 +71,6 @@ body{
 		}
 	}
 }
-
 .categories {
 	width: 100%;
 	display: flex;
@@ -80,7 +79,7 @@ body{
 		text-align: center;
 		font-size: 12px;
 		font-weight: bold;
-		padding: 15px 0;
+		padding: 15px 10px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -88,47 +87,50 @@ body{
 			flex:0 0 15%;
 		}
 		&:nth-child(2){
-			flex: 0 0 5%;
+			flex: 0 0 6%;
 		}
 		&:nth-child(3){
-			flex: 0 0 7%;
+			flex: 0 0 9%;
 		}
 		&:nth-child(4){
 			flex: 0 0 8%;
 		}
 		&:nth-child(5){
-			flex: 0 0 5%;
+			flex: 0 0 6%;
 		}
 		&:nth-child(6){
-			flex: 0 0 5%;
+			flex: 0 0 4%;
 		}
 		&:nth-child(7){
-			flex: 0 0 5%;
+			flex: 0 0 4%;
 		}
 		&:nth-child(8){
-			flex: 0 0 5%;
+			flex: 0 0 4%;
 		}
 		
 		&:nth-child(9){
-			flex: 0 0 5%;
+			flex: 0 0 4%;
 		}
 		&:nth-child(10){
-			flex: 0 0 5%;
+			flex: 0 0 4%;
 		}
 		&:nth-child(11){
-			flex: 0 0 5%;
+			flex: 0 0 4%;
 		}
 		&:nth-child(12){
-			flex: 0 0 5%;
+			flex: 0 0 4%;
 		}
 		&:nth-child(13){
-			flex: 0 0 5%;
+			flex: 0 0 4%;
 		}
 		&:nth-child(14){
-			flex: 0 0 5%;
+			flex: 0 0 4%;
 		}
 		&:nth-child(15){
-			flex: 0 0 5%;
+			flex: 0 0 4%;
+		}
+		&:nth-child(16){
+			flex: 1 1 auto;
 		}
 	}
 }
@@ -145,6 +147,7 @@ body{
 		box-shadow: 10px 4px 10px rgba(0,0,0, .25);
 		border:5px solid rgba(46, 121, 234, .3);
 		position: relative;
+		box-sizing: unset;
 		&.hide{
 			display: none;
 		}
@@ -152,7 +155,7 @@ body{
 
 	&__block{
 		border-right:2px solid #000;
-		padding: 15px 10px;
+		padding: 15px 5px;
 		font-weight: bold;
 		display: flex;
 		align-items: center;
@@ -162,16 +165,16 @@ body{
 			flex:0 0 15%;
 		}
 		&:nth-child(2){
-			flex: 0 0 5%;
+			flex: 0 0 6%;
 		}
 		&:nth-child(3){
-			flex: 0 0 7%;
+			flex: 0 0 9%;
 		}
 		&:nth-child(4){
 			flex: 0 0 8%;
 		}
 		&:nth-child(5){
-			flex: 0 0 5%;
+			flex: 0 0 6%;
 		}
 		/* &:nth-child(6){
 			
@@ -218,10 +221,10 @@ body{
 		&.contract,
 		&.payment,
 		&.lecture{
-			flex: 0 0 3%;
+			flex: 0 0 4%;
 			background: red;
 			overflow: hidden;
-			padding: 0;
+			
 			transition:all .5s ease;
 			&.active{
 				background:inherit;
@@ -232,7 +235,7 @@ body{
 			}
 		}
 		&.list__comment{
-			flex: 0 0 15%;
+			flex: 1 1 auto;
 			border-right:none;
 			position: relative;
 
@@ -241,7 +244,7 @@ body{
 				padding: 10px;
 				
 			}
-			.comment__input{
+			.comment__form{
 				position: absolute;
 				z-index: 10;
 				width: 320px;
@@ -278,7 +281,7 @@ body{
 				}
 			}
 			&.active{
-				.comment__input{
+				.comment__form{
 					opacity: 1;
 					visibility: visible;
 					div{
