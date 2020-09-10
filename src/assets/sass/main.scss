@@ -224,7 +224,6 @@ body{
 			flex: 0 0 4%;
 			background: red;
 			overflow: hidden;
-			
 			transition:all .5s ease;
 			&.active{
 				background:inherit;
@@ -238,11 +237,9 @@ body{
 			flex: 1 1 auto;
 			border-right:none;
 			position: relative;
-
 			.comment__text{
 				position: relative;
-				padding: 10px;
-				
+				padding: 10px;	
 			}
 			.comment__form{
 				position: absolute;
@@ -269,9 +266,6 @@ body{
 					top: -39%;
 					border: 3rem solid transparent;
 					border-bottom: 20px solid #D9DDE1;
-				}
-				.input__text{
-					
 				}
 				textarea{
 					width: 100%;
@@ -350,7 +344,7 @@ body{
 	}
 }
 
-.modal {
+.modal, .i-modal {
 	opacity: 0;
 	visibility: hidden;
 	transition: all .2s ease;
@@ -368,7 +362,6 @@ body{
 	}
 	&__dialog {
 		width: 30%;
-		
 		background: #D1D8F0;
 		padding:40px 20px;
 		position: relative;
@@ -403,13 +396,32 @@ body{
 		}
 	}
 
-	.form{
+	.i-modal__dialog{
+		width:50% !important;
+	}
+
+	.form, .i-form{
 		display: flex;
 		flex-direction: column;
+		&__row{
+			display: flex;
+			flex-direction: row;
+		}
+		&__column{
+			padding:0 15px;
+			flex:0 0 50%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			.i-form__item{
+				padding: 10px 0;
+			}
+		}
 		&__item{
 			width: 100%;
 			display: flex;
 			padding:20px 0;
+			align-items: center;
 			label{
 				font-size: 14px;
 				flex:0 0 45%;
@@ -433,9 +445,9 @@ body{
 			font-size: 14px;
 			font-weight: bold;
 			cursor:pointer;
-
 		}
 	}
+
 }
 
 

@@ -1,8 +1,13 @@
-const formState = {},
+let formState = {},
       form = document.getElementById('form'),
       inputs = document.querySelectorAll('.form__item input'),
-      modal = document.querySelector('.modal');
+      infopackInputs = document.querySelectorAll('.i-form__item input'),
+      infopackForm = document.querySelector('.i-form'),
+      modal = document.querySelector('.modal'),
+      IModal = document.querySelector('.i-modal')
 let itemId;
+
+
 
 /* Отрисовка и  добавление данных в localStorage */
 
@@ -10,19 +15,30 @@ form.addEventListener('submit', e => {
     e.preventDefault();
 
 
-    formState['dateChange'] = null;
-    formState['rzn'] = null;
-    formState['validContract'] = null;
-    formState['invalidContract'] = null;
-    formState['i'] = null;
-    formState['wo'] = null;
-    formState['contract'] = null;
-    formState['payment'] = null;
-    formState['lecture'] = null;
-    formState['a'] = null;    
-    formState['comment'] = null;
+    formState['dateChange'] = false;
+    formState['rzn'] = false;
+    formState['validContract'] = false;
+    formState['invalidContract'] = false;
+    formState['i'] = {
+        'departureDate': null,
+        'dateOfReceiving': null,
+        'pages':false,
+        'questionnaire': false,
+        'agreement': false,
+        'contactInfo': false,
+        'passportInfo': false,
+        'bankInfo': false,
+        'personalData': false,
+        'signature': false
+    };
+    formState['wo'] = false;
+    formState['contract'] = false;
+    formState['payment'] = false;
+    formState['lecture'] = false;
+    formState['a'] = false;    
+    formState['comment'] = false;
 
-    itemId++;
+    
 
     formState['id'] = itemId;
 
@@ -30,9 +46,29 @@ form.addEventListener('submit', e => {
     addToLocalStorage(formState);
     addMaxIdToLocalStorage(itemId);
     bindComment();
-   
 
-    
+    itemId++;
+   
+})
+
+infopackForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const items = getItemsFromLocalStorage();
+    const index = IModal.getAttribute('data-index');
+
+      
+
+    for(let key in formState){
+        items[index]['i'][key] = formState[key]
+    } 
+
+
+    console.log(items)
+    localStorage.setItem('items', JSON.stringify(items))
+
+    formState = {};
+
 })
 
 function addToLocalStorage(item){
@@ -70,10 +106,20 @@ function renderItem(state, id){
                 </div>
            `;
            listItemBlock.classList.add(`${key}`);
-           listItemBlock.addEventListener('click', () => {
-               listItemBlock.classList.toggle('active');
-           });
+           
+           state[key] ? listItemBlock.classList.add('active') : listItemBlock.classList.remove('active')
+           listItemBlock.addEventListener('click', (e) => {
+               
+            const arrOfItems = getItemsFromLocalStorage();
+               const index = arrOfItems.findIndex(item => item['id'] == e.target.closest('.list__item').getAttribute('data-id'));
 
+               arrOfItems[index][key] = !arrOfItems[index][key];
+
+               listItemBlock.classList.toggle('active')
+
+               localStorage.setItem('items', JSON.stringify(arrOfItems))
+               
+           });
         }else if(key == 'i'){
             listItemBlock.innerHTML = `
             <div class = 'list__block_choose'>
@@ -81,6 +127,12 @@ function renderItem(state, id){
             </div>
             `;
             listItemBlock.classList.add(`${key}`);
+            listItemBlock.addEventListener('click', e => {
+                IModal.classList.add('active');
+                IModal.setAttribute('data-index', e.target.closest('.list__item').getAttribute('data-id'))
+                infopackFormSubmit(e.target.closest('.list__item'));
+    
+            })
         }
         else if(key == 'comment'){
             listItemBlock.classList.add('list__comment');
@@ -127,6 +179,7 @@ function renderItem(state, id){
 
     parentBlock.append(listItem);
     state = {};
+    console.log(state)
     form.reset();
     modal.classList.remove('active');
 }
@@ -154,9 +207,17 @@ function bindComment(){
     })   
 }
 
+function infopackFormSubmit(idx){
+    const items = getItemsFromLocalStorage();
+    const index = items.findIndex(item => item.id == idx.getAttribute('data-id'))
+    
+
+}
+
 
 window.addEventListener('load', () => {
     const items = getItemsFromLocalStorage();
+
     items.forEach(item => {
         renderItem(item, item['id'])
     })
@@ -166,6 +227,15 @@ window.addEventListener('load', () => {
             formState[input.id] = input.value;
         })
     });
+
+    infopackInputs.forEach(input => {
+        input.addEventListener('input', () => {
+            formState[input.id] = input.value;
+            console.log(formState)
+        })
+    })
+
+
 
     itemId = getMaxIdFromLocalStorage();
 

@@ -45,7 +45,7 @@
     </div>
     <div class="modal">
         <div class="modal__dialog">
-            <div class="modal__close" id = 'close'>
+            <div class="modal__close close">
                 <span></span>
                 <span></span>
             </div>
@@ -66,6 +66,53 @@
                     <label for="cost-center">Кост-центр</label><input type="text" id = 'cost-center'>
                 </div>                              
                 <input class = 'form__btn' type="submit" value="Добавить" id = 'form-btn'>                
+            </form>
+        </div>
+    </div>
+    <div class="modal i-modal">
+        <div class="i-modal__dialog">
+            <div class="i-modal__close close">
+                <span></span> 
+                <span></span>
+            </div>
+            <form action="" class="i-modal__form i-form" id = 'i-form'>
+                <div class="i-form__row">
+                    <div class="i-form__column">
+                        <div class="i-form__item">
+                            <label for="departureDate">Дата отправки:</label><input type="date" id = 'departureDate'>
+                        </div>
+                        <div class="i-form__item">
+                            <label for="dateOfReceiving">Дата получения:</label><input type="date" id = 'dateOfReceiving'>
+                        </div>
+                        <div class="i-form__item">
+                            <label for="pages">С.3-4 заполнены верно</label><input type="checkbox" id = 'pages'>
+                        </div>
+                        <div class="i-form__item">
+                            <label for="questionnaire">Анкета заполнена верно</label><input type="checkbox" id = 'questionnaire'>
+                        </div>
+                        <div class="i-form__item">
+                            <label for="agreement">Заполнено согласие</label><input type="checkbox" id = 'agreement'>
+                        </div>         
+                    </div>                     
+                    <div class="i-form__column">
+                        <div class="i-form__item">
+                            <label for="contactInfo">Заполнена контактная информация</label><input type="checkbox" id = 'contactInfo'>
+                        </div>                              
+                        <div class="i-form__item">
+                            <label for="passportInfo">Заполнены паспортные данные</label><input type="checkbox" id = 'passportInfo'>
+                        </div>                              
+                        <div class="i-form__item">
+                            <label for="bankInfo">Банковские реквизиты заполнены верно</label><input type="checkbox" id = 'bankInfo'>
+                        </div>                              
+                        <div class="i-form__item">
+                            <label for="personalData">Заполнено согласие на обработку п/д</label><input type="checkbox" id = 'personalData'>
+                        </div>                              
+                        <div class="i-form__item">
+                            <label for="signature">Подпись/дата проставлены везде</label><input type="checkbox" id = 'signature'>
+                        </div>             
+                    </div>   
+                </div>
+                <input class = 'i-form__btn' type="submit" value="Добавить" id = 'form-btn'>                
             </form>
         </div>
     </div>

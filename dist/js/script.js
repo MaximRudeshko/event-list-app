@@ -4028,29 +4028,56 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 var formState = {},
     form = document.getElementById('form'),
     inputs = document.querySelectorAll('.form__item input'),
-    modal = document.querySelector('.modal');
+    infopackInputs = document.querySelectorAll('.i-form__item input'),
+    infopackForm = document.querySelector('.i-form'),
+    modal = document.querySelector('.modal'),
+    IModal = document.querySelector('.i-modal');
 var itemId;
 /* Отрисовка и  добавление данных в localStorage */
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
-  formState['dateChange'] = null;
-  formState['rzn'] = null;
-  formState['validContract'] = null;
-  formState['invalidContract'] = null;
-  formState['i'] = null;
-  formState['wo'] = null;
-  formState['contract'] = null;
-  formState['payment'] = null;
-  formState['lecture'] = null;
-  formState['a'] = null;
-  formState['comment'] = null;
-  itemId++;
+  formState['dateChange'] = false;
+  formState['rzn'] = false;
+  formState['validContract'] = false;
+  formState['invalidContract'] = false;
+  formState['i'] = {
+    'departureDate': null,
+    'dateOfReceiving': null,
+    'pages': false,
+    'questionnaire': false,
+    'agreement': false,
+    'contactInfo': false,
+    'passportInfo': false,
+    'bankInfo': false,
+    'personalData': false,
+    'signature': false
+  };
+  formState['wo'] = false;
+  formState['contract'] = false;
+  formState['payment'] = false;
+  formState['lecture'] = false;
+  formState['a'] = false;
+  formState['comment'] = false;
   formState['id'] = itemId;
   renderItem(formState, itemId);
   addToLocalStorage(formState);
   addMaxIdToLocalStorage(itemId);
   bindComment();
+  itemId++;
+});
+infopackForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var items = getItemsFromLocalStorage();
+  var index = IModal.getAttribute('data-index');
+
+  for (var key in formState) {
+    items[index]['i'][key] = formState[key];
+  }
+
+  console.log(items);
+  localStorage.setItem('items', JSON.stringify(items));
+  formState = {};
 });
 
 function addToLocalStorage(item) {
@@ -4084,12 +4111,24 @@ function renderItem(state, id) {
     if (key == 'wo' || key == 'a' || key == 'dateChange' || key == 'rzn' || key == 'validContract' || key == 'invalidContract' || key == 'contract' || key == 'payment' || key == 'lecture') {
       listItemBlock.innerHTML = "\n                <div class = 'list__block_choose'>\n                    <img src ='./assets/img/ok.svg'>\n                </div>\n           ";
       listItemBlock.classList.add("".concat(key));
-      listItemBlock.addEventListener('click', function () {
+      state[key] ? listItemBlock.classList.add('active') : listItemBlock.classList.remove('active');
+      listItemBlock.addEventListener('click', function (e) {
+        var arrOfItems = getItemsFromLocalStorage();
+        var index = arrOfItems.findIndex(function (item) {
+          return item['id'] == e.target.closest('.list__item').getAttribute('data-id');
+        });
+        arrOfItems[index][key] = !arrOfItems[index][key];
         listItemBlock.classList.toggle('active');
+        localStorage.setItem('items', JSON.stringify(arrOfItems));
       });
     } else if (key == 'i') {
       listItemBlock.innerHTML = "\n            <div class = 'list__block_choose'>\n                <img src ='./assets/img/ok.svg'>\n            </div>\n            ";
       listItemBlock.classList.add("".concat(key));
+      listItemBlock.addEventListener('click', function (e) {
+        IModal.classList.add('active');
+        IModal.setAttribute('data-index', e.target.closest('.list__item').getAttribute('data-id'));
+        infopackFormSubmit(e.target.closest('.list__item'));
+      });
     } else if (key == 'comment') {
       listItemBlock.classList.add('list__comment');
       listItemBlock.innerHTML = "\n                <div class = 'comment__text'>".concat(state[key] ? state[key] : '', "</div>\n                <form class = 'comment__form'>\n                    <div>\n                        <p class = 'input__text'>\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0432\u0430\u0448 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439</p>\n                        <input type = 'submit' value = ''>\n                    </div>\n                    <textarea id ='commment-text'></textarea>\n                </form>\n            ");
@@ -4128,6 +4167,7 @@ function renderItem(state, id) {
   listItem.append(close);
   parentBlock.append(listItem);
   state = {};
+  console.log(state);
   form.reset();
   modal.classList.remove('active');
 }
@@ -4150,6 +4190,13 @@ function bindComment() {
   });
 }
 
+function infopackFormSubmit(idx) {
+  var items = getItemsFromLocalStorage();
+  var index = items.findIndex(function (item) {
+    return item.id == idx.getAttribute('data-id');
+  });
+}
+
 window.addEventListener('load', function () {
   var items = getItemsFromLocalStorage();
   items.forEach(function (item) {
@@ -4158,6 +4205,12 @@ window.addEventListener('load', function () {
   inputs.forEach(function (input) {
     input.addEventListener('input', function () {
       formState[input.id] = input.value;
+    });
+  });
+  infopackInputs.forEach(function (input) {
+    input.addEventListener('input', function () {
+      formState[input.id] = input.value;
+      console.log(formState);
     });
   });
   itemId = getMaxIdFromLocalStorage();
@@ -4170,19 +4223,29 @@ window.addEventListener('load', function () {
 /*!**************************!*\
   !*** ./src/js/script.js ***!
   \**************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.for-each */ "./node_modules/core-js/modules/es.array.for-each.js");
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__);
+
 
 window.addEventListener('DOMContentLoaded', function () {
   //Открытие/закрытие модального окна
   var btn = document.getElementById('add'),
       modal = document.querySelector('.modal'),
-      close = document.getElementById('close');
+      close = document.querySelectorAll('.close');
   btn.addEventListener('click', function () {
     modal.classList.add('active');
   });
-  close.addEventListener('click', function () {
-    modal.classList.remove('active');
+  close.forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      e.target.closest('.modal').classList.remove('active');
+    });
   });
 });
 

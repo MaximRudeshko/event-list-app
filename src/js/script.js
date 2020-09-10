@@ -4,14 +4,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const btn = document.getElementById('add'),
         modal = document.querySelector('.modal'),
-        close = document.getElementById('close');
+        close = document.querySelectorAll('.close');
 
     btn.addEventListener('click', () => {
         modal.classList.add('active')
     })
 
-    close.addEventListener('click', () => {
-        modal.classList.remove('active');
+    close.forEach(item => {
+        item.addEventListener('click', e => {
+            e.target.closest('.modal').classList.remove('active');
+        })
     })
     
 })
