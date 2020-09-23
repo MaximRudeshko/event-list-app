@@ -1,12 +1,14 @@
+const _ = require('lodash');
+
 let formState = {},
-      form = document.getElementById('form'),
+      iFormState = {},
+      itemId;
+const form = document.getElementById('form'),
       inputs = document.querySelectorAll('.form__item input'),
       infopackInputs = document.querySelectorAll('.i-form__item input'),
       infopackForm = document.querySelector('.i-form'),
       modal = document.querySelector('.modal'),
-      IModal = document.querySelector('.i-modal')
-let itemId;
-
+      IModal = document.querySelector('.i-modal');
 
 
 /* Отрисовка и  добавление данных в localStorage */
@@ -14,12 +16,13 @@ let itemId;
 form.addEventListener('submit', e => {
     e.preventDefault();
 
-
+    itemId++;
     formState['dateChange'] = false;
     formState['rzn'] = false;
     formState['validContract'] = false;
     formState['invalidContract'] = false;
     formState['i'] = {
+        'active': false,
         'departureDate': null,
         'dateOfReceiving': null,
         'pages':false,
@@ -36,10 +39,9 @@ form.addEventListener('submit', e => {
     formState['payment'] = false;
     formState['lecture'] = false;
     formState['a'] = false;    
-    formState['comment'] = false;
-
+    formState['comment'] = '';
+    formState['timeLeft'] = null
     
-
     formState['id'] = itemId;
 
     renderItem(formState, itemId);
@@ -47,27 +49,57 @@ form.addEventListener('submit', e => {
     addMaxIdToLocalStorage(itemId);
     bindComment();
 
-    itemId++;
-   
+    formState = {}
+     
 })
 
 infopackForm.addEventListener('submit', e => {
     e.preventDefault();
 
     const items = getItemsFromLocalStorage();
-    const index = IModal.getAttribute('data-index');
+    const index = items.findIndex(item => item['id'] == IModal.getAttribute('data-index'))
+    const iBlocks = document.querySelectorAll('.i');
+
+
+    console.log(index)
+    console.log(IModal)
+    console.log(items[index])
 
       
 
-    for(let key in formState){
-        items[index]['i'][key] = formState[key]
+    for(let key in iFormState){
+        items[index]['i'][key] = iFormState[key]
     } 
 
+    
 
-    console.log(items)
+    if(items[index]['i']['departureDate'] != null 
+        && items[index]['i']['dateOfReceiving'] != null
+        && items[index]['i']['pages'] != false
+        && items[index]['i']['questionnaire'] != false
+        && items[index]['i']['agreement'] != false
+        && items[index]['i']['contactInfo'] != false
+        && items[index]['i']['passportInfo'] != false
+        && items[index]['i']['bankInfo'] != false
+        && items[index]['i']['personalData'] != false
+        && items[index]['i']['signature'] != false
+    ){
+        items[index]['i']['active'] = true;
+        
+        iBlocks.forEach(block => {
+            if(block.closest('.list__item').getAttribute('data-id') == items[index]['id']){
+                block.classList.add('active')
+            }
+        })
+    }else{
+        
+    }
+
     localStorage.setItem('items', JSON.stringify(items))
 
-    formState = {};
+    iFormState = {};
+    infopackForm.reset();
+    IModal.classList.remove('active')
 
 })
 
@@ -127,32 +159,58 @@ function renderItem(state, id){
             </div>
             `;
             listItemBlock.classList.add(`${key}`);
+            if(state['i']['active']){
+                listItemBlock.classList.add('active')
+            }
             listItemBlock.addEventListener('click', e => {
+                const items = getItemsFromLocalStorage();
+                const index = items.findIndex(item => item.id == e.target.closest('.list__item').getAttribute('data-id'))
+
+                infopackInputs.forEach(input => {
+                    input.checked = false
+                })
+                
+                
+                infopackInputs.forEach(input => {
+                    console.log(items[index]['i'][input.id])
+                        
+                        console.log(index)
+                    if(items[index]['i'][input.id]){
+                        input.checked = true
+                    } 
+                    
+                })
                 IModal.classList.add('active');
                 IModal.setAttribute('data-index', e.target.closest('.list__item').getAttribute('data-id'))
-                infopackFormSubmit(e.target.closest('.list__item'));
-    
             })
+
         }
         else if(key == 'comment'){
             listItemBlock.classList.add('list__comment');
             listItemBlock.innerHTML = `
                 <div class = 'comment__text'>${state[key] ? state[key] : ''}</div>
-                <form class = 'comment__form'>
-                    <div>
-                        <p class = 'input__text'>Введите ваш комментарий</p>
-                        <input type = 'submit' value = ''>
-                    </div>
-                    <textarea id ='commment-text'></textarea>
-                </form>
+                <div class = 'comment__form'>
+                    <form >
+                        <div class = 'comment__form-inner'>
+                            <p class = 'input__text'>Введите ваш комментарий</p>
+                            <input type = 'submit' value = ''>
+                        </div>
+                        <textarea id ='commment-text'>${state[key]}</textarea>
+                    </form>
+                </div>
             `
 
             listItemBlock.addEventListener('click', e => {
-                e.target.classList.toggle('active')
+                console.log(e.target == listItemBlock)
+                if(e.target == listItemBlock || e.target == listItemBlock.querySelector('.comment__text')){
+                    listItemBlock.querySelector('.comment__form').classList.toggle('active')
+                }
             })
 
         }else if(key == 'id'){
             continue;
+        }else if(key == 'timeLeft'){
+            continue
         }else{
             listItemBlock.textContent = state[key];
             listItemBlock.classList.add('list__search');
@@ -179,7 +237,6 @@ function renderItem(state, id){
 
     parentBlock.append(listItem);
     state = {};
-    console.log(state)
     form.reset();
     modal.classList.remove('active');
 }
@@ -193,8 +250,11 @@ function bindComment(){
             e.preventDefault();
             const textarea = e.target.querySelector('textarea');
 
-            e.target.previousElementSibling.textContent = textarea.value;
-            e.target.closest('.list__comment').classList.remove('active');
+            const commentBlock = e.target.closest('.comment__form')
+
+            commentBlock.previousElementSibling.textContent = textarea.value;
+
+            commentBlock.classList.remove('active');
 
             const arrOfItems = getItemsFromLocalStorage();
 
@@ -207,17 +267,9 @@ function bindComment(){
     })   
 }
 
-function infopackFormSubmit(idx){
-    const items = getItemsFromLocalStorage();
-    const index = items.findIndex(item => item.id == idx.getAttribute('data-id'))
-    
-
-}
-
 
 window.addEventListener('load', () => {
     const items = getItemsFromLocalStorage();
-
     items.forEach(item => {
         renderItem(item, item['id'])
     })
@@ -230,15 +282,15 @@ window.addEventListener('load', () => {
 
     infopackInputs.forEach(input => {
         input.addEventListener('input', () => {
-            formState[input.id] = input.value;
-            console.log(formState)
+            iFormState[input.id] = input.checked;
+            console.log(iFormState)
         })
     })
 
-
-
-    itemId = getMaxIdFromLocalStorage();
+    itemId = getMaxIdFromLocalStorage() || 0;
 
     bindComment();
-
 });
+
+
+
